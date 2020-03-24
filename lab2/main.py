@@ -48,7 +48,7 @@ specifications = [
     },
     {
         "name": "zq",
-        "count": lambda x: (x[ceil(len(x) * 1/4)] + x[ceil(len(x) * 3 / 4)]) / 2
+        "count": lambda x: (sorted(x)[ceil(len(x) * 1/4)] + sorted(x)[ceil(len(x) * 3 / 4)]) / 2
     },
     {
         "name": "ztr",
@@ -56,9 +56,10 @@ specifications = [
     }
 ]
 
+
 capacities = [10, 100, 1000]
 for dist in distributions:
-    print(dist["name"])
+    print("-------" + dist["name"]+"-------")
     for spec in specifications:
         print(spec["name"])
         for cap in capacities:
