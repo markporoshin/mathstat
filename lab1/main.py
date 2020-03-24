@@ -1,10 +1,12 @@
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 from math import sqrt, pi, exp, pow, factorial, fabs
 
 
-def show(description, values, cap):
+def show(description, values, cap, i):
+    ax = plt.subplot(1, 3, i)
     sns.distplot(values)
     x = sorted(set(values))
     y = [description['destiny'](_) for _ in x]
@@ -13,10 +15,12 @@ def show(description, values, cap):
     plt.ylabel("destiny")
     plt.xlabel("number - %s" % cap)
     plt.grid()
-    plt.show()
+    destiny = mpatches.Patch(color='red', label='плотность')
+    kde = mpatches.Patch(color='blue', label='ядерная оценка')
+    plt.legend(handles=[destiny, kde])
 
 
-capacities = [10, 50, 100]
+capacities = [10, 50, 1000]
 distributions = [
     {
         'name': 'normal',
@@ -25,7 +29,7 @@ distributions = [
     },
     {
         'name': 'poisson',
-        'func': lambda size: np.random.poisson(size=size),
+        'func': lambda size: np.random.poisson(10, size=size),
         'destiny': lambda x: (pow(10, round(x)) / factorial(round(x))) * exp(-10)
     },
     {
@@ -46,8 +50,12 @@ distributions = [
 ]
 
 for dis in distributions:
+    i = 1
+    plt.subplot(1, 3, 1)
     for cap in capacities:
-        show(dis, dis['func'](cap), cap)
+        show(dis, dis['func'](cap), cap, i)
+        i += 1
+    plt.show()
 
 
 
