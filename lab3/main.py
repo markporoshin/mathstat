@@ -32,13 +32,11 @@ distributions = [
 
 capacities = [20, 1000]
 for dis in distributions:
-    # i = 1
-    # for cap in capacities:
-    #     plt.subplot(1, 2, i)
-    #     plt.boxplot(dis['func'](cap), vert=False, showfliers=False)
-    #     plt.title("%s capacity %s" % (dis["name"], cap))
-    #     i += 1
-    # plt.show()
+    _,ax = plt.subplots()
+    ax.boxplot([dis['func'](20), dis['func'](1000)], vert=False, showfliers=False)
+    ax.set_title("%s" % (dis["name"]))
+    ax.set_yticklabels(['20', '1000'])
+    plt.show()
 
     for cap in capacities:
         sum = 0
