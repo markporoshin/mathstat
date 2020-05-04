@@ -32,16 +32,18 @@ distributions = [
 
 capacities = [20, 1000]
 for dis in distributions:
-    _,ax = plt.subplots()
-    ax.boxplot([dis['func'](20), dis['func'](1000)], vert=False, showfliers=False)
-    ax.set_title("%s" % (dis["name"]))
-    ax.set_yticklabels(['20', '1000'])
-    plt.show()
+    # _,ax = plt.subplots()
+    # ax.boxplot([dis['func'](20), dis['func'](1000)], vert=False, showfliers=False)
+    # ax.set_title("%s" % (dis["name"]))
+    # ax.set_yticklabels(['20', '1000'])
+    # plt.show()
 
     for cap in capacities:
         sum = 0
+        samples = []
         for _ in range(1000):
             sample = sorted(dis['func'](cap))
+
             l = len(sample)
             Q1 = sample[int(1 / 4 * l)]
             Q3 = sample[int(3 / 4 * l)]
@@ -50,4 +52,5 @@ for dis in distributions:
             discharge = list(filter(lambda x: x < X1 or x > X2, sample))
             discharges = len(list(filter(lambda x: x < X1 or x > X2, sample)))
             sum += discharges
-        print("%s-%s average discharges proportion %s" % (dis['name'], cap, sum / 1000 / cap))
+            samples.append(discharges)
+        print("%s-%s average discharges proportion %s; var %s" % (dis['name'], cap, sum / 1000 / cap, np.var(samples) / cap))
